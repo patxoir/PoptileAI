@@ -4,8 +4,9 @@ from collections import deque
 from typing import Tuple, List, Iterator
 from itertools import product
 from copy import deepcopy
-from statistics import stdev
+from statistics import stdev, mean
 import random
+from timeit import default_timer as timer
 
 DEBUG = False
 
@@ -97,21 +98,60 @@ class PoptileAI(Poptile):
             cnt += 1
         return self.score, cnt
 
+class Statistics:
+    def __init__(self):
+        self.n = 0
+        self.score_list = []
+        self.click_count_list = []
+        self.runtime_list = []
+        self.cps_list = []
+
+    def append(self, score, click, runtime):
+        self.n += 1
+        self.score_list.append(score)
+        self.click_count_list.append(click)
+        self.runtime_list.append(runtime)
+        self.cps_list.append(click / runtime)
+    
+    def getLastGameInfo(self) -> str:
+        msg = (f'Game {self.n:3d}:'
+               f' {self.score_list[-1]:7d} pts |'
+               f' {self.click_count_list[-1]:6d} clk |'
+               f' {self.runtime_list[-1]:8.2f} s |'
+               f' {self.cps_list[-1]:8.2f} cps')
+        return msg
+
+    def printStat(self):
+        print(f'Total games played: {self.n}')
+        print(f'Elasped time: {sum(self.runtime_list):.2f} s\n')
+
+        print(f'Max score: {max(self.score_list)}')
+        print(f'Avg score: {mean(self.score_list):.2f}')
+        print(f'Std score: {stdev(self.score_list):.2f}\n')
+
+        print(f'Avg time per game: {mean(self.runtime_list):.2f} s')
+        print(f'Avg cps: {mean(self.cps_list):.2f}')
+        print(f'Std cps: {stdev(self.cps_list):.2f}') 
+
 def main():
     f = open(LOGFILE, 'a')
-    score_log = []
-    for i in range(1, 101):
+    stat = Statistics()
+    num_games = 5
+    print(f'Start simulation for {num_games} games...')
+    for i in range(1, num_games + 1):
+        start = timer()
+        # Measure time
         game = PoptileAI(WIDTH, HEIGHT, COLOR, NUMCOLOR)
         score, cnt = game.simulate(DFSWIDTH, DFSDEPTH)
-        score_log.append(score)
-        msg = f'game {i:3d}: {score:7d} pts, {cnt:5d} clk\n'
-        print(msg, end='')
-        f.write(msg)
+        # ... until here
+        end = timer()
+        runtime = end - start
+        stat.append(score, cnt, runtime)
+        msg = stat.getLastGameInfo()
+        print(msg)
+        f.write(msg + '\n')
 
-    score_log.sort()
-    print(f'max score: {max(score_log)}')
-    print(f'avg score: {sum(score_log) / 100}')
-    print(f'std score: {stdev(score_log)}')
+    stat.printStat()
 
 if __name__ == '__main__':
     main()
