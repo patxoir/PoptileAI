@@ -1,7 +1,7 @@
+from XORShift import XORShift
 from constant import *
 from collections import deque
 from typing import Tuple, List
-import random
 import os, sys
 
 class Poptile:
@@ -11,6 +11,7 @@ class Poptile:
         self.color = c.copy()
         self.numcolor = nc
         self.board = [[EMPTY for _ in range(w)] for _ in range(h)]
+        self.random = XORShift()
         self.board = self.insertNewLine(self.board, self.newLine())
         self.alive = True
         self.score = 0
@@ -33,7 +34,7 @@ class Poptile:
         return newBoard
 
     def newLine(self) -> List[int]:
-        return list(random.randint(1, self.numcolor) for _ in range(self.width))
+        return list((self.random.next() % self.numcolor)+1 for _ in range(self.width))
 
     def deleteTiles(self, board, y, x) -> int:
         q = deque()
