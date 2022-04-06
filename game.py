@@ -78,11 +78,11 @@ class Poptile:
                 elif board[y][x] != EMPTY:
                     bottom += 1
 
-    def checkNotGameOver(self, board) -> bool:
+    def isGameOver(self, board) -> bool:
         for x in range(self.width):
             if board[self.height-1][x] != EMPTY:
-                return False
-        return True
+                return True
+        return False
 
     def getScore(self) -> int:
         return self.score
@@ -103,7 +103,7 @@ class Poptile:
         pop_count = self.deleteTiles(self.board, y, x)
         self.updateScore(pop_count)
         self.dropTiles(self.board)
-        self.alive = self.checkNotGameOver(self.board)
+        self.alive = not self.isGameOver(self.board)
         if self.isAlive():
             self.board = self.insertNewLine(self.board, self.newLine())
 

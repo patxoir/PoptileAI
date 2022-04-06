@@ -63,8 +63,7 @@ class PoptileAI(Poptile):
             clicked_board = deepcopy(self.board)
             self.deleteTiles(clicked_board, y, x)
             self.dropTiles(clicked_board)
-            if not self.checkNotGameOver(clicked_board):
-                debug_print('gameover')
+            if self.isGameOver(clicked_board):
                 cur_score = INF
             else:
                 cur_score = self.dfs(clicked_board, depth)
@@ -84,7 +83,7 @@ class PoptileAI(Poptile):
             cnt += 1
             self.deleteTiles(clicked_board, y, x)
             self.dropTiles(clicked_board)
-            if not self.checkNotGameOver(clicked_board):
+            if self.isGameOver(clicked_board):
                 ret += INF
                 continue
             ret += self.dfs(clicked_board, depth-1)
@@ -123,7 +122,7 @@ class Statistics:
 
     def printStat(self):
         print(f'Total games played: {self.n}')
-        print(f'Elasped time: {sum(self.runtime_list):.2f} s\n')
+        print(f'Elapsed time: {sum(self.runtime_list):.2f} s\n')
 
         print(f'Max score: {max(self.score_list)}')
         print(f'Avg score: {mean(self.score_list):.2f}')
