@@ -1,11 +1,9 @@
 from constant import *
 from game import Poptile
 from collections import deque
-from typing import Tuple, List, Iterator
-from itertools import product
+from typing import Tuple, Iterator
 from copy import deepcopy
 from statistics import stdev, mean
-import random
 from timeit import default_timer as timer
 
 DEBUG = False
@@ -89,12 +87,14 @@ class PoptileAI(Poptile):
             ret += self.dfs(clicked_board, depth-1)
         return (ret / cnt)
 
-    def simulate(self, width, depth):
+    def simulate(self, width, depth, callback=None):
         cnt = 0
         while self.isAlive():
             y, x = self.getBestMove(depth)
             self.click(y, x)
             cnt += 1
+            if callback:
+                callback()
         return self.score, cnt
 
 class Statistics:
