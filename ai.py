@@ -87,12 +87,14 @@ class PoptileAI(Poptile):
             ret += self.dfs(clicked_board, depth-1)
         return (ret / cnt)
 
-    def simulate(self, width, depth):
+    def simulate(self, width, depth, callback=None):
         cnt = 0
         while self.isAlive():
             y, x = self.getBestMove(depth)
             self.click(y, x)
             cnt += 1
+            if callback:
+                callback()
         return self.score, cnt
 
 class Statistics:
