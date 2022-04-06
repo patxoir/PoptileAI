@@ -26,7 +26,7 @@ class PoptileAI(Poptile):
                 if board[y][x] != EMPTY:
                     height = y
                     break
-            score += height ** 3
+            score += height ** height
         return -score
 
     def getClickableList(self, board) -> Iterator[Tuple[int, int]]:
@@ -136,7 +136,7 @@ class Statistics:
 def main():
     f = open(LOGFILE, 'a')
     stat = Statistics()
-    num_games = 5
+    num_games = 100
     print(f'Start simulation for {num_games} games...')
     for i in range(1, num_games + 1):
         start = timer()
