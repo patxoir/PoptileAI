@@ -1,11 +1,9 @@
 from constant import *
 from game import Poptile
 from collections import deque
-from typing import Tuple, List, Iterator
-from itertools import product
+from typing import Tuple, Iterator
 from copy import deepcopy
 from statistics import stdev, mean
-import random
 from timeit import default_timer as timer
 
 DEBUG = False
