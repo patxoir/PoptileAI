@@ -135,7 +135,7 @@ class Statistics:
 def main():
     f = open(LOGFILE, 'a')
     stat = Statistics()
-    num_games = 100
+    num_games = 1000
     print(f'Start simulation for {num_games} games...')
     for i in range(1, num_games + 1):
         start = timer()

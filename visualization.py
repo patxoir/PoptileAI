@@ -1,6 +1,7 @@
 
 from ai import PoptileAI
 from constant import *
+from statistics import stdev, mean
 import pygame
 pygame.init()
 
@@ -58,7 +59,7 @@ def main():
 
     score_log.sort()
     print(f'max score: {max(score_log)}')
-    print(f'avg score: {sum(score_log) / 100}')
+    print(f'avg score: {mean(score_log)}')
     print(f'std score: {stdev(score_log)}')
 
 if __name__ == '__main__':
