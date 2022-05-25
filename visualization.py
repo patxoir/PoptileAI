@@ -12,8 +12,9 @@ SCREENRECT = pygame.Rect(100, 100, TILESIZE * 8, 100 + TILESIZE * 15)
 bestdepth = pygame.display.mode_ok(SCREENRECT.size, 0, 32)
 
 # FIXME: pygame.display.set_mode를 두번 불러야 윈도우가 나타남
-pygame.display.set_mode(SCREENRECT.size, 0, bestdepth)
+# pygame.display.set_mode(SCREENRECT.size, 0, bestdepth)
 screen = pygame.display.set_mode(SCREENRECT.size, 0, bestdepth)
+pygame.display.set_caption('Poptile')
 clock = pygame.time.Clock()
 
 class PygamePoptileAI(PoptileAI):
